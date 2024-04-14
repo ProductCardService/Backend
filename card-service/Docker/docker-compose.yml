@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "fitcha"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+  card-service:
+    image: card-service:latest
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+volumes:
+  elasticsearch-data:
+    driver: local
