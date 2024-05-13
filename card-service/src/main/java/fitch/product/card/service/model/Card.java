@@ -11,13 +11,18 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +39,7 @@ public class Card {
     @Column(name = "image_base64")
     private String imageBase64;
 
-    @Cascade(CascadeType.ALL)
-    @OneToMany(mappedBy = "card", fetch = FetchType.EAGER)
+    @Cascade(CascadeType.REMOVE)
+    @OneToMany(orphanRemoval = true, mappedBy = "card", fetch = FetchType.LAZY, cascade = jakarta.persistence.CascadeType.ALL)
     private List<Tag> tags;
 }

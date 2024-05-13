@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 @RequiredArgsConstructor
 public class CardService {
@@ -25,7 +27,7 @@ public class CardService {
         var card = Card.builder()
                 .title(cardDto.title())
                 .description(cardDto.description())
-                .imageBase64(cardDto.image_base64())
+                .imageBase64(cardDto.image())
                 .build();
 
         var tags = cardDto.tags().stream().map(tagName -> {
@@ -77,9 +79,12 @@ public class CardService {
     }
     @Transactional
     public void deleteCard(Long cardId) {
-        if (cardRepository.deleteCard(cardId) == 0) {
+        var card = cardRepository.findById(cardId);
+        if (card.isEmpty()) {
             throw new CardNotFoundException("Card with id " + cardId + " not found");
         }
+        tagsRepository.deleteAll(card.get().getTags());
+        cardRepository.delete(card.get());
     }
     @Transactional
     public CardInfoDto updateCard(Long cardId, CreateCardDto cardDto) {
@@ -100,6 +105,7 @@ public class CardService {
                     .title(cardDto.title())
                     .description(cardDto.description())
                     .tags(tags)
+                    .imageBase64(cardDto.image())
                     .build();
 
             var savedCard = cardRepository.save(newCardVersion);

@@ -11,6 +11,6 @@ public record CreateCardDto(
         String title,
         String description,
         List<String> tags,
-        String image_base64
+        String image
 ) {
 }
