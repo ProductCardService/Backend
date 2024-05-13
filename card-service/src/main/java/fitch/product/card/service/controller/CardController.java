@@ -19,7 +19,7 @@ import java.util.List;
 public class CardController {
     private final CardService cardService;
 
-    @PostMapping(path = "/card")
+    @PostMapping(path = "/cards")
     public CardInfoDto createCard(@RequestBody CreateCardDto cardDto) {
         return cardService.createCard(cardDto);
     }
@@ -29,7 +29,7 @@ public class CardController {
         return cardService.getCards();
     }
 
-    @GetMapping(path = "/card/{cardId}")
+    @GetMapping(path = "/cards/{cardId}")
     public CardInfoDto getCardById(@PathVariable Long cardId) {
         return cardService.getCardById(cardId);
     }

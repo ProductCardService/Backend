@@ -15,8 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class
-CardService {
+public class CardService {
     private final CardRepository cardRepository;
     private final TagsRepository tagsRepository;
 
@@ -43,7 +42,7 @@ CardService {
                 .title(savedCard.getTitle())
                 .description(savedCard.getDescription())
                 .tags(cardDto.tags())
-                .image_base64(card.getImageBase64())
+                .image(card.getImageBase64())
                 .build();
     }
 
@@ -69,7 +68,7 @@ CardService {
                     .title(card.get().getTitle())
                     .description(card.get().getDescription())
                     .tags(card.get().getTags().stream().map(Tag::getName).toList())
-                    .image_base64(card.get().getImageBase64())
+                    .image(card.get().getImageBase64())
                     .build();
         } else {
             throw new CardNotFoundException("Card with id " + cardId + " not found");
@@ -94,7 +93,7 @@ CardService {
                 return Tag.builder().name(tagName).card(card.get()).build();
             }).toList();
 
-//            tagsRepository.saveAll(tags);
+            tagsRepository.saveAll(tags);
 
             var newCardVersion = Card.builder()
                     .id(card.get().getId())
@@ -110,7 +109,7 @@ CardService {
                     .title(savedCard.getTitle())
                     .description(savedCard.getDescription())
                     .tags(cardDto.tags())
-                    .image_base64(savedCard.getImageBase64())
+                    .image(savedCard.getImageBase64())
                     .build();
         } else {
             throw new CardNotFoundException("Card with id " + cardId + " not found");
