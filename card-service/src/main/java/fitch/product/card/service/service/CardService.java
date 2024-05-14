@@ -60,7 +60,7 @@ public class CardService {
                     .build();
         }).toList();
     }
-
+    @Transactional
     public CardInfoDto getCardById(Long cardId) {
         var card = cardRepository.findById(cardId);
 

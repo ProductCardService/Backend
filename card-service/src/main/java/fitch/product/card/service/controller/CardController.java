@@ -2,6 +2,7 @@ package fitch.product.card.service.controller;
 
 import fitch.product.card.service.model.dto.CardInfoDto;
 import fitch.product.card.service.model.dto.CreateCardDto;
+import fitch.product.card.service.model.dto.ImageDto;
 import fitch.product.card.service.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,11 @@ public class CardController {
     @GetMapping(path = "/cards/{cardId}")
     public CardInfoDto getCardById(@PathVariable Long cardId) {
         return cardService.getCardById(cardId);
+    }
+
+    @GetMapping(path = "/cards/{cardId}/image")
+    public ImageDto getCardImage(@PathVariable Long cardId) {
+        return new ImageDto(cardService.getCardById(cardId).image());
     }
 
     @DeleteMapping(path = "/cards/{cardId}")
